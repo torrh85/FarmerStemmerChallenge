@@ -13,8 +13,9 @@
 		B89FAA992BC1994000EFCC03 /* FarmerStemmer in Frameworks */ = {isa = PBXBuildFile; productRef = B89FAA982BC1994000EFCC03 /* FarmerStemmer */; };
 		B89FAA9D2BC19AB100EFCC03 /* HomeStemmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89FAA9C2BC19AB100EFCC03 /* HomeStemmerView.swift */; };
 		B89FAA9F2BC19ABB00EFCC03 /* HomeStemmerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89FAA9E2BC19ABB00EFCC03 /* HomeStemmerViewModel.swift */; };
-		B89FAAA22BC19FB700EFCC03 /* StemRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89FAAA12BC19FB700EFCC03 /* StemRepository.swift */; };
+		B89FAAA22BC19FB700EFCC03 /* StemStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89FAAA12BC19FB700EFCC03 /* StemStorage.swift */; };
 		B89FAAA52BC19FFF00EFCC03 /* StemWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89FAAA42BC19FFF00EFCC03 /* StemWord.swift */; };
+		B8FF41522BC20C7200640229 /* FileManager+Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF41512BC20C7200640229 /* FileManager+Directory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,9 +25,10 @@
 		B89FAA8F2BC1990B00EFCC03 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B89FAA9C2BC19AB100EFCC03 /* HomeStemmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStemmerView.swift; sourceTree = "<group>"; };
 		B89FAA9E2BC19ABB00EFCC03 /* HomeStemmerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStemmerViewModel.swift; sourceTree = "<group>"; };
-		B89FAAA12BC19FB700EFCC03 /* StemRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StemRepository.swift; sourceTree = "<group>"; };
+		B89FAAA12BC19FB700EFCC03 /* StemStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StemStorage.swift; sourceTree = "<group>"; };
 		B89FAAA42BC19FFF00EFCC03 /* StemWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StemWord.swift; sourceTree = "<group>"; };
 		B89FAAA62BC1BA9A00EFCC03 /* FarmerStemmer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FarmerStemmer; sourceTree = "<group>"; };
+		B8FF41512BC20C7200640229 /* FileManager+Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Directory.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +64,9 @@
 		B89FAA872BC1990A00EFCC03 /* FarmerStemmerChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				B8FF41502BC20C5300640229 /* Extensions */,
 				B89FAAA32BC19FDE00EFCC03 /* Model */,
-				B89FAAA02BC19F8600EFCC03 /* Repository */,
+				B89FAAA02BC19F8600EFCC03 /* Storage */,
 				B89FAA9B2BC19A7200EFCC03 /* ViewModels */,
 				B89FAA9A2BC19A6C00EFCC03 /* Views */,
 				B89FAA882BC1990A00EFCC03 /* FarmerStemmerChallengeApp.swift */,
@@ -104,12 +107,12 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		B89FAAA02BC19F8600EFCC03 /* Repository */ = {
+		B89FAAA02BC19F8600EFCC03 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				B89FAAA12BC19FB700EFCC03 /* StemRepository.swift */,
+				B89FAAA12BC19FB700EFCC03 /* StemStorage.swift */,
 			);
-			path = Repository;
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		B89FAAA32BC19FDE00EFCC03 /* Model */ = {
@@ -118,6 +121,14 @@
 				B89FAAA42BC19FFF00EFCC03 /* StemWord.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B8FF41502BC20C5300640229 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B8FF41512BC20C7200640229 /* FileManager+Directory.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,11 +204,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B89FAAA22BC19FB700EFCC03 /* StemRepository.swift in Sources */,
+				B89FAAA22BC19FB700EFCC03 /* StemStorage.swift in Sources */,
 				B89FAA892BC1990A00EFCC03 /* FarmerStemmerChallengeApp.swift in Sources */,
 				B89FAA9D2BC19AB100EFCC03 /* HomeStemmerView.swift in Sources */,
 				B89FAA9F2BC19ABB00EFCC03 /* HomeStemmerViewModel.swift in Sources */,
 				B89FAAA52BC19FFF00EFCC03 /* StemWord.swift in Sources */,
+				B8FF41522BC20C7200640229 /* FileManager+Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

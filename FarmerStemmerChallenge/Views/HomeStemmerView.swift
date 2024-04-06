@@ -15,22 +15,36 @@ struct HomeStemmerView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                TextField("Word", text: $viewModel.text)
-                    .textFieldStyle(.roundedBorder)
-                Button("Stem") {
-                    viewModel.stemming()
+        NavigationView {
+            VStack {
+                HStack {
+                    TextField("Word", text: $viewModel.text)
+                        .textFieldStyle(.roundedBorder)
+                    Button("Stem") {
+                        viewModel.performStemming()
+                    }
+                }
+                
+                List {
+                    ForEach(viewModel.items) { stem in
+                        Text("\(stem.text), \(stem.count)")
+                    }
+                }
+                .listStyle(.plain)
+                Spacer()
+            }
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        viewModel.deleteStems()
+                    }, label: {
+                        Text("Delete")
+                    })
                 }
             }
-            
-            List {
-                ForEach(viewModel.stemWords, id: \.self) { word in
-                    Text("\(word)")
-                }
-            }
-            Spacer()
         }
+
+        .padding()
     }
 }
 

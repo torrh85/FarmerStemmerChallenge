@@ -8,43 +8,58 @@
 import Foundation
 
 public class FarmerStemmerAPI: FarmerStemmer {
-    private var cache: [String: Set<String>] = [:]
+    private var cache = FarmerStemmerCache()
     
     public init() { }
-    
-    public func stemWords(_ words: [String]) -> Set<String> {
-        var results = Set<String>()
-        let sortedSuffixes = FarmerSuffix.allCases.sorted(by: { $0.length > $1.length })
-        
-        for word in words {
-            if let cacheResult = cache[word] {
-                results.formUnion(cacheResult)
-                continue
-            }
-            
-            for suffix in sortedSuffixes {
-                if word.hasSuffix(suffix.rawValue) {
-                    let rootWorld = word.prefix(word.count - suffix.length)
-                    let stemmedWords = steam(rootWorld: rootWorld, additions: suffix.additions)
-                    cache[word] = stemmedWords
-                    results.formUnion(stemmedWords)
-                    break
-                }
-            }
-        }
-        
-        return results
+
+    init(cache: FarmerStemmerCache = FarmerStemmerCache()) {
+        self.cache = cache
     }
     
-    private func steam(rootWorld: Substring, additions: [String]) -> Set<String> {
-        var results = Set<String>()
+    public func stemWords(_ words: [String]) async -> [Stem] {
+        let sortedSuffixes = FarmerSuffix.allCases.sorted(by: { $0.length > $1.length })
+        var results = [Stem]()
+        return await withTaskGroup(of: [Stem].self) { group in
+            for word in words {
+                group.addTask { [weak self] in
+                    guard let strongSelf = self else { return [] }
+                    let validWord = word.filter { $0.isLetter }.lowercased()
+                    if let cachedResult = strongSelf.cache.getCache(for: validWord) {
+                        return cachedResult
+                    }
+                    for suffix in sortedSuffixes {
+                        if validWord.hasSuffix(suffix.rawValue) {
+                            let rootWorld = validWord.prefix(validWord.count - suffix.length)
+                            let stemmedWords = strongSelf.steam(rootWorld: rootWorld, additions: suffix.additions)
+                            strongSelf.cache.setCache(stemmedWords, for: validWord)
+                            return stemmedWords
+                        }
+                    }
+                    return []
+                }
+            }
+            
+            for await result in group {
+                results.append(contentsOf: result)
+            }
+            
+            return results
+        }
+    }
+
+    private func steam(rootWorld: Substring, additions: [String]) -> [Stem] {
+        var results = [Stem]()
         if additions.isEmpty {
-            results.insert(String(rootWorld))
+            let steam = String(rootWorld)
+            let timestamp = Date.timeIntervalSinceReferenceDate
+            results.append(Stem(word: steam, timestamp: timestamp))
             return results
         }
         
         for addition in additions {
-            results.insert(rootWorld + addition)
+            let steam = String(rootWorld + addition)
+            let timestamp = Date.timeIntervalSinceReferenceDate
+            results.append(Stem(word: steam, timestamp: timestamp))
         }
         
         return results

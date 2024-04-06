@@ -8,12 +8,12 @@
 import Foundation
 
 public enum FarmerSuffix: String, CaseIterable {
-    case EVM = "EVM"
-    case LZ = "LZ"
-    case ZQ = "ZQ"
-    case L = "L"
-    case PZL = "PZL"
-    case EZL = "EZL"
+    case EVM = "evm"
+    case LZ = "lz"
+    case ZQ = "zq"
+    case L = "l"
+    case PZL = "pzl"
+    case EZL = "ezl"
     
     var length: Int {
         self.rawValue.count
@@ -24,9 +24,9 @@ public enum FarmerSuffix: String, CaseIterable {
             case .EVM, .LZ, .ZQ, .L:
                 return []
             case .PZL:
-                return ["A", "AZ"]
+                return ["a", "az"]
             case .EZL:
-                return ["R"]
+                return ["r"]
         }
     }
 }

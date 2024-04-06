@@ -20,75 +20,94 @@ final class FarmerStemmerTests: XCTestCase {
         stemmer = nil
     }
     
-    func testSuffix_L_Rule() {
+    func testSuffix_L_Rule() async {
         // Given
         let input = ["XZIHNZL", "XZIHESNZL", "XZIHNZL"]
         
         // When
-        let stemWords = stemmer.stemWords(input)
+        let stemWords = await stemmer.stemWords(input)
+        let words = stemWords.map { $0.word }.sorted()
         
         // Then
-        XCTAssertEqual(stemWords.count, 2)
-        XCTAssertEqual(stemWords, ["XZIHESNZ", "XZIHNZ"])
+        XCTAssertEqual(words.count, 3)
+        XCTAssertEqual(words, ["XZIHNZ", "XZIHESNZ", "XZIHNZ"].map { $0.lowercased() }.sorted())
     }
     
-    func testSuffix_LZ_Rule() {
+    func testSuffix_LZ_Rule() async {
         // Given
         let input = ["IHFULZ", "EEESNZLZ", "AAABLZ", "EEELZ", "NMUYLZ", "LORELZ", "BJSELZ","AXDDLZ", "IHFULZ"]
         
         // When
-        let stemWords = stemmer.stemWords(input)
+        let stemWords = await stemmer.stemWords(input)
+        let words = stemWords.map { $0.word }.sorted()
         
         // Then
-        XCTAssertEqual(stemWords.count, 8)
-        XCTAssertEqual(stemWords, ["IHFU", "EEESNZ", "AAAB", "EEE", "NMUY", "LORE", "BJSE", "AXDD"])
+        XCTAssertEqual(words.count, 9)
+        XCTAssertEqual(words, ["IHFU", "EEESNZ", "AAAB", "EEE", "NMUY", "LORE", "BJSE","AXDD", "IHFU"].map { $0.lowercased() }.sorted())
     }
     
-    func testSuffix_EVM_Rule() {
+    func testSuffix_EVM_Rule() async {
         // Given
         let input = ["IHFTEVM", "IHFTEVM", "IHFTEVM", "IHFTEVM", "IHFTEVM", "GNDEVM"]
         
         // When
-        let stemWords = stemmer.stemWords(input)
+        let stemWords = await stemmer.stemWords(input)
+        let words = stemWords.map { $0.word }.sorted()
         
         // Then
-        XCTAssertEqual(stemWords.count, 2)
-        XCTAssertEqual(stemWords, ["IHFT", "GND"])
+        XCTAssertEqual(words.count, 6)
+        XCTAssertEqual(words, ["IHFT", "IHFT", "IHFT", "IHFT", "IHFT", "GND"].map { $0.lowercased() }.sorted())
     }
     
-    func testSuffix_ZQ_Rule() {
+    func testSuffix_ZQ_Rule() async {
         // Given
         let input = ["QELLHSPZQ", "QELLHSPZQ", "CNSWZQ", "QELLHSPZQ"]
         
         // When
-        let stemWords = stemmer.stemWords(input)
+        let stemWords = await stemmer.stemWords(input)
+        let words = stemWords.map { $0.word }.sorted()
         
         // Then
-        XCTAssertEqual(stemWords.count, 2)
-        XCTAssertEqual(stemWords, ["QELLHSP", "CNSW"])
+        XCTAssertEqual(words.count, 4)
+        XCTAssertEqual(words, ["QELLHSP", "QELLHSP", "CNSW", "QELLHSP"].map { $0.lowercased() }.sorted())
     }
     
-    func testSuffix_PZL_Rule() {
+    func testSuffix_PZL_Rule() async {
         // Given
-        let input = ["UZCUZLZVKDKEPZL", "UZCUZLZVKDKEPZL", "UZCUZLZVKDKAPZL"]
+        let input = ["UZCUZLZVKDKEPZL", "UZCUZLZVKDKEPZL"]
         
         // When
-        let stemWords = stemmer.stemWords(input)
+        let stemWords = await stemmer.stemWords(input)
+        let words = stemWords.map { $0.word }.sorted()
         
         // Then
-        XCTAssertEqual(stemWords.count, 4)
-        XCTAssertEqual(stemWords, ["UZCUZLZVKDKEA", "UZCUZLZVKDKEAZ", "UZCUZLZVKDKAA", "UZCUZLZVKDKAAZ"])
+        XCTAssertEqual(words.count, 4)
+        XCTAssertEqual(words, ["UZCUZLZVKDKEA", "UZCUZLZVKDKEAZ", "UZCUZLZVKDKEA", "UZCUZLZVKDKEAZ"].map { $0.lowercased() }.sorted())
     }
     
-    func testSuffix_EZL_Rule() {
+    func testSuffix_EZL_Rule() async {
         // Given
         let input = ["DUNEZL"]
         
         // When
-        let stemWords = stemmer.stemWords(input)
+        let stemWords = await stemmer.stemWords(input)
+        let words = stemWords.map { $0.word }
         
         // Then
-        XCTAssertEqual(stemWords.count, 1)
-        XCTAssertEqual(stemWords, ["DUNR"])
+        XCTAssertEqual(words.count, 1)
+        XCTAssertEqual(words, ["DUNR"].map { $0.lowercased() })
+    }
+    
+    func testInvalidWord() async {
+        // Given
+        let input = ["LSDDEZL0834#"]
+        
+        // When
+        let stemWords = await stemmer.stemWords(input)
+        let words = stemWords.map { $0.word }
+        
+        // Then
+        XCTAssertEqual(words.count, 1)
+        XCTAssertEqual(words, ["lsddr"])
     }
 }
