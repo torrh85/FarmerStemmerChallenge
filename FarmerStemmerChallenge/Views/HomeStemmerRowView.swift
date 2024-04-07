@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct HomeStemmerRowView: View {
+    
+    // MARK: - Properties
     let stemmerItem: StemmerItem
     
+    // MARK: - Views
     var body: some View {
         HStack {
             VStack(alignment: .leading) {

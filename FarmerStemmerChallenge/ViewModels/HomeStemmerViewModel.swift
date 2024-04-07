@@ -5,8 +5,8 @@
 //  Created by HAWER TORRES on 6/04/24.
 //
 
-import SwiftUI
 import FarmerStemmer
+import SwiftUI
 
 class HomeStemmerViewModel: ObservableObject {
     private var stemmerApi: FarmerStemmerAPI
@@ -14,6 +14,10 @@ class HomeStemmerViewModel: ObservableObject {
     
     @Published var text: String = ""
     @Published var items: [StemmerItem] = []
+    
+    var totalStemWords: Int {
+        return items.reduce(0) { $0 + $1.count }
+    }
     
     init(stemmerApi: FarmerStemmerAPI = FarmerStemmerAPI(),
          dataStorage: StemStorage = StemStorageAPI()) {

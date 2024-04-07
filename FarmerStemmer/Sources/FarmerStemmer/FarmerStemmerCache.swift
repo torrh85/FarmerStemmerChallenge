@@ -8,9 +8,12 @@
 import Foundation
 
 class FarmerStemmerCache {
+    
+    // MARK: - Properties
     private let queue = DispatchQueue(label: "FarmerStemmerCache.queue", attributes: .concurrent)
     private var dictionary: [String: [Stem]] = [:]
     
+    // MARK: - Getting data from cache
     func getCache(for word: String) -> [Stem]? {
         var result: [Stem]?
         queue.sync {
@@ -19,6 +22,7 @@ class FarmerStemmerCache {
         return result
     }
     
+    // MARK: - Saving data to cache
     func setCache(_ stems: [Stem], for word: String) {
         queue.async(flags: .barrier) {
             self.dictionary[word] = stems

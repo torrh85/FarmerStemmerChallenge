@@ -8,14 +8,18 @@
 import Foundation
 
 public class FarmerStemmerAPI: FarmerStemmer {
+    
+    // MARK: - Properties
     private var cache = FarmerStemmerCache()
     
+    // MARK: - Initializer
     public init() { }
-    
+
     init(cache: FarmerStemmerCache = FarmerStemmerCache()) {
         self.cache = cache
     }
     
+    // MARK: - Functionality
     public func stemWords(_ words: [String]) async -> [Stem] {
         let sortedSuffixes = FarmerSuffix.allCases.sorted(by: { $0.length > $1.length })
         var results = [Stem]()
