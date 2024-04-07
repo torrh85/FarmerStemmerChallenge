@@ -11,7 +11,7 @@ public class FarmerStemmerAPI: FarmerStemmer {
     private var cache = FarmerStemmerCache()
     
     public init() { }
-
+    
     init(cache: FarmerStemmerCache = FarmerStemmerCache()) {
         self.cache = cache
     }
@@ -30,12 +30,14 @@ public class FarmerStemmerAPI: FarmerStemmer {
                     for suffix in sortedSuffixes {
                         if validWord.hasSuffix(suffix.rawValue) {
                             let rootWorld = validWord.prefix(validWord.count - suffix.length)
-                            let stemmedWords = strongSelf.steam(rootWorld: rootWorld, additions: suffix.additions)
+                            let stemmedWords = strongSelf.steam(rootWorld: rootWorld, additions: suffix.additions, word: validWord)
                             strongSelf.cache.setCache(stemmedWords, for: validWord)
                             return stemmedWords
                         }
                     }
-                    return []
+                    return [
+                        Stem(stemmed: validWord, word: validWord, timestamp: Date.timeIntervalSinceReferenceDate)
+                    ]
                 }
             }
             
@@ -46,20 +48,20 @@ public class FarmerStemmerAPI: FarmerStemmer {
             return results
         }
     }
-
-    private func steam(rootWorld: Substring, additions: [String]) -> [Stem] {
+    
+    private func steam(rootWorld: Substring, additions: [String], word: String) -> [Stem] {
         var results = [Stem]()
         if additions.isEmpty {
             let steam = String(rootWorld)
             let timestamp = Date.timeIntervalSinceReferenceDate
-            results.append(Stem(word: steam, timestamp: timestamp))
+            results.append(Stem(stemmed: steam, word: word, timestamp: timestamp))
             return results
         }
         
         for addition in additions {
             let steam = String(rootWorld + addition)
             let timestamp = Date.timeIntervalSinceReferenceDate
-            results.append(Stem(word: steam, timestamp: timestamp))
+            results.append(Stem(stemmed: steam, word: word, timestamp: timestamp))
         }
         
         return results

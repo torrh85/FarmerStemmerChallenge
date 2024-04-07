@@ -24,6 +24,8 @@ class HomeStemmerViewModel: ObservableObject {
     }
     
     func performStemming() {
+        guard !text.isEmpty else { return }
+        
         let texts = text.components(separatedBy: " ")
         Task { [weak self] in
             guard let strongSelf = self else { return }
@@ -42,13 +44,10 @@ class HomeStemmerViewModel: ObservableObject {
         var savedResults = dataStorage.get()
 
         for stem in stems {
-            var savedStem = savedResults[stem.word, default: StemmerItem(
-                text: stem.word,
-                count: 0,
-                timestamp: stem.timestamp)
-            ]
+            let item = StemmerItem(text: stem.stemmed, word: stem.word, count: 0, timestamp: stem.timestamp)
+            var savedStem = savedResults[stem.stemmed, default: item]
             savedStem.incrementCount()
-            savedResults[stem.word] = savedStem
+            savedResults[stem.stemmed] = savedStem
         }
         
         dataStorage.save(data: savedResults)

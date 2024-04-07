@@ -8,6 +8,7 @@
 import Foundation
 
 public struct Stem: Hashable {
+    public let stemmed: String
     public let word: String
     public let timestamp: TimeInterval
 }

@@ -18,27 +18,32 @@ struct HomeStemmerView: View {
         NavigationView {
             VStack {
                 HStack {
-                    TextField("Word", text: $viewModel.text)
+                    TextField("Please enter the word", text: $viewModel.text)
+                        .font(.callout)
+                        .keyboardType(.asciiCapable)
+                        .padding(10)
                         .textFieldStyle(.roundedBorder)
-                    Button("Stem") {
+                    Button("Analyze") {
                         viewModel.performStemming()
                     }
+                    .buttonStyle(.bordered)
                 }
                 
                 List {
                     ForEach(viewModel.items) { stem in
-                        Text("\(stem.text), \(stem.count)")
+                        HomeStemmerRowView(stemmerItem: stem)
                     }
                 }
                 .listStyle(.plain)
                 Spacer()
             }
+            .navigationTitle("Farmer Stemmer app")
             .toolbar{
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         viewModel.deleteStems()
                     }, label: {
-                        Text("Delete")
+                        Image(systemName: "trash")
                     })
                 }
             }

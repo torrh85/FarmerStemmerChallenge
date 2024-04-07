@@ -10,6 +10,7 @@ import Foundation
 struct StemmerItem: Identifiable, Codable {
     var id: String { UUID().uuidString }
     let text: String
+    let word: String
     var count: Int
     let timestamp: TimeInterval
     
